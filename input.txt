@@ -1,2 +1,2 @@
-listen
-silent
+This is an example of an anagram
+An anagram can rearrange characters
