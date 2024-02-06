@@ -10,9 +10,9 @@ void check(char str[], int* count) {
     char ch;
     int* p;
     for (int i = 0; str[i] != '\0'; i++) {
-        ch = NULL;
+        // ch = NULL;
         p = NULL;
-         //printf("%c",str[i]);
+
 
         if (str[i]>='A' && str[i]<='Z') {
             //convert character to lowercase
@@ -20,9 +20,7 @@ void check(char str[], int* count) {
         }
         if (str[i]>='a' && str[i]<='z') {
             ch = str[i];
-            //printf("%c",ch);
             p = count + ch - 'a';
-            //printf("%c\n",ch);
             (*p)++;
         }
         }
@@ -47,8 +45,6 @@ int areAnagrams(char str1[], char str2[]) {
 
     // Compare character counts of both strings
     for (int i = 0; i < 26; i++) {
-        //printf("%d\n",count1[i]);
-        //printf("%d\n",count2[i]);
         if (count1[i] != count2[i]) {
             // Not anagrams
             free(count1);
@@ -68,7 +64,7 @@ int isWhitespace(int ch) {
     return ch == 32 || ch == 9 || ch == 10 || ch == 13;
 }
 
-  int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     char *str1, *str2;
     char *filename = argv[1];
     char *outputFilename = argv[2];
@@ -125,9 +121,6 @@ int isWhitespace(int ch) {
             free(str2);
             return 1;
         }
-        
-        //printf("%s\n", str2);
-        //printf("%s\n", str1);
 
         // Close the input file after reading
         fclose(file);
@@ -154,7 +147,15 @@ int isWhitespace(int ch) {
         free(str2);
 
     } else {
-        perror("Input file is empty or contains only whitespace");
+        FILE *outputFile = fopen(outputFilename, "w");
+        if (outputFile == NULL) {
+            perror("Error opening output file");
+            free(str1);
+            free(str2);
+            return 1;
+        }
+
+        fprintf(outputFile, "Error: input file is empty"); // write error message to the output file
         fclose(file); // Close the file if it's empty
     }
 
