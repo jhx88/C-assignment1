@@ -1,1 +1,1 @@
-0! not anagram
+1! anagram
