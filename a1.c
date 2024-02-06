@@ -1,10 +1,10 @@
 //A01366116 Caitlyn
 //A01364159
 //A01355003
+//A01357572
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #define MAX_TEXT_SIZE 1024
 
 void check(char str[], int* count) {
     char ch;
@@ -14,16 +14,16 @@ void check(char str[], int* count) {
         p = NULL;
          //printf("%c",str[i]);
 
-        if (str[i]>='A' && str[i]<='Z'){
+        if (str[i]>='A' && str[i]<='Z') {
             //convert character to lowercase
             str[i] = str[i] + 32;
         }
         if (str[i]>='a' && str[i]<='z') {
-          ch = str[i];
-          //printf("%c",ch);
-          p = count + ch - 'a';
-         //printf("%c\n",ch);
-          (*p)++;
+            ch = str[i];
+            //printf("%c",ch);
+            p = count + ch - 'a';
+            //printf("%c\n",ch);
+            (*p)++;
         }
         }
     }
@@ -63,12 +63,12 @@ int areAnagrams(char str1[], char str2[]) {
     return 1;
 }
 
-int isWhitespace(int ch){
+int isWhitespace(int ch) {
     // white spaces in ascii 
     return ch == 32 || ch == 9 || ch == 10 || ch == 13;
 }
 
-  int main(int argc, char *argv[]){
+  int main(int argc, char *argv[]) {
     char *str1, *str2;
     char *filename = argv[1];
     char *outputFilename = argv[2];
@@ -96,13 +96,13 @@ int isWhitespace(int ch){
         // read the first string
         // allocate possible max size
         str1 = (char *)malloc(1024 * sizeof(char)); 
-        if(str1 == NULL){
+        if (str1 == NULL) {
             fprintf(stderr, "Memory allocation failed\n");
             fclose(file);
             return 1;
         }
 
-        if(!fgets(str1, 1024, file)){
+        if (!fgets(str1, 1024, file)) {
             fprintf(stderr, "Error reading the first string\n");
             fclose(file);
             free(str1);
@@ -149,10 +149,10 @@ int isWhitespace(int ch){
         }
 
         fclose(outputFile); // Close the output file after writing
-   
+
         free(str1);
         free(str2);
-   
+
     } else {
         perror("Input file is empty or contains only whitespace");
         fclose(file); // Close the file if it's empty
