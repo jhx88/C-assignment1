@@ -13,7 +13,6 @@ void check(char str[], int* count) {
         // ch = NULL;
         p = NULL;
 
-
         if (str[i]>='A' && str[i]<='Z') {
             //convert character to lowercase
             str[i] = str[i] + 32;
@@ -65,7 +64,8 @@ int isWhitespace(int ch) {
 }
 
 int main(int argc, char *argv[]) {
-    char *str1, *str2;
+    char *str1 = NULL;
+    char *str2 = NULL;
     char *filename = argv[1];
     char *outputFilename = argv[2];
     int is_empty_or_whitespace = 1;
@@ -89,24 +89,36 @@ int main(int argc, char *argv[]) {
     if (!is_empty_or_whitespace) {
         rewind(file); // Go back to the start of the file to read the strings
 
-        // read the first string
-        // allocate possible max size
-        str1 = (char *)malloc(1024 * sizeof(char)); 
+        int str1_length = 0;
+        while ((ch = fgetc(file)) != '\n' && ch != EOF) {
+            str1_length++;
+        }  
+        rewind(file); // Go back to the start of the file to read the strings
+
+        // allocate memory based on the length of the first string
+        str1 = (char *)malloc((str1_length + 1) * sizeof(char));
         if (str1 == NULL) {
             fprintf(stderr, "Memory allocation failed\n");
             fclose(file);
             return 1;
         }
 
-        if (!fgets(str1, 1024, file)) {
+        if (!fgets(str1, str1_length + 1, file)) {
             fprintf(stderr, "Error reading the first string\n");
             fclose(file);
             free(str1);
             return 1;
         }
 
-        // read the second string and allocate
-        str2 = (char *)malloc(1024 * sizeof(char));
+        fgetc(file);
+
+        int str2_length = 0;
+        while ((ch = fgetc(file)) != '\n' && ch != EOF) {
+            str2_length++;
+        }
+
+        // allocate memory based on the length of the second string
+        str2 = (char *)malloc((str2_length + 1) * sizeof(char));
         if (str2 == NULL){
             fprintf(stderr, "Memory allocation failed\n");
             fclose(file);
@@ -114,7 +126,10 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-        if (!fgets(str2, 1024, file)) {
+        rewind(file);
+        while((ch = fgetc(file)) != '\n' && ch != EOF);
+
+        if (!fgets(str2, str2_length + 1, file)) {
             fprintf(stderr, "Error reading the first string\n");
             fclose(file);
             free(str1);
