@@ -30,7 +30,7 @@ int areAnagrams(char str1[], char str2[]) {
     int *count2 = (int *)malloc(26 * sizeof(int));
 
     if (count1 == NULL || count2 == NULL){
-        fprintf(stderr, "error: memory allocation failed\n");
+        fprintf(stderr, "Memory allocation failed\n");
         return -1;
     }   
 
@@ -63,19 +63,6 @@ int isWhitespace(int ch) {
     return ch == 32 || ch == 9 || ch == 10 || ch == 13;
 }
 
-void writeErrorToFile(char *outpitFileName, char *errorMessage)
-{
-    FILE *outputFile = fopen(outpitFileName, "w");
-    if (outputFile == NULL) {
-        perror("error opening output file");
-        return;
-    }
-
-    fprintf(outputFile, "%s", errorMessage);
-
-    fclose(outputFile);
-}
-
 int main(int argc, char *argv[]) {
     char *str1 = NULL;
     char *str2 = NULL;
@@ -86,7 +73,7 @@ int main(int argc, char *argv[]) {
     // Open the file for reading
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        writeErrorToFile(outputFilename, "error opening input file");
+        perror("Error opening input file");
         return 1;
     }
 
@@ -111,13 +98,13 @@ int main(int argc, char *argv[]) {
         // allocate memory based on the length of the first string
         str1 = (char *)malloc((str1_length + 1) * sizeof(char));
         if (str1 == NULL) {
-            writeErrorToFile(outputFilename, "error: memory allocation failed");
+            fprintf(stderr, "Memory allocation failed\n");
             fclose(file);
             return 1;
         }
 
         if (!fgets(str1, str1_length + 1, file)) {
-            writeErrorToFile(outputFilename, "error reading the first string");
+            fprintf(stderr, "Error reading the first string\n");
             fclose(file);
             free(str1);
             return 1;
@@ -133,7 +120,7 @@ int main(int argc, char *argv[]) {
         // allocate memory based on the length of the second string
         str2 = (char *)malloc((str2_length + 1) * sizeof(char));
         if (str2 == NULL){
-            writeErrorToFile(outputFilename, "error: memory allocation failed");
+            fprintf(stderr, "Memory allocation failed\n");
             fclose(file);
             free(str1);
             return 1;
@@ -143,7 +130,7 @@ int main(int argc, char *argv[]) {
         while((ch = fgetc(file)) != '\n' && ch != EOF);
 
         if (!fgets(str2, str2_length + 1, file)) {
-            writeErrorToFile(outputFilename, "error reading the first string\n");
+            fprintf(stderr, "Error reading the first string\n");
             fclose(file);
             free(str1);
             free(str2);
@@ -156,7 +143,7 @@ int main(int argc, char *argv[]) {
         // Open the output file for writing
         FILE *outputFile = fopen(outputFilename, "w");
         if (outputFile == NULL) {
-            writeErrorToFile(outputFilename, "error opening output file");
+            perror("Error opening output file");
             free(str1);
             free(str2);
             return 1;
@@ -183,7 +170,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-        fprintf(outputFile, "error: input file is empty"); // write error message to the output file
+        fprintf(outputFile, "Error: input file is empty"); // write error message to the output file
         fclose(file); // Close the file if it's empty
     }
 
